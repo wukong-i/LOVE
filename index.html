@@ -29,7 +29,6 @@
             font-size: 3rem;
             color: #FF7F7F;
             text-transform: capitalize;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
         }
         p {
             font-family: 'Raleway', sans-serif;
@@ -51,15 +50,15 @@
             font-family: 'Raleway', sans-serif;
         }
         /* Floating Hearts Animation */
-      .floating-heart {
-    position: fixed;
-    width: 15px;
-    height: 15px;
-    background-color: pink;
-    clip-path: polygon(50% 0%, 100% 35%, 85% 100%, 50% 75%, 15% 100%, 0% 35%);
-    animation: floatUp 4s ease-in-out infinite;
-    bottom: -20px; /* Start slightly off the screen */
-}
+        .floating-heart {
+            position: fixed;
+            width: 15px;
+            height: 15px;
+            background-color: pink;
+            clip-path: polygon(50% 0%, 100% 35%, 85% 100%, 50% 75%, 15% 100%, 0% 35%);
+            animation: floatUp 4s ease-in-out infinite;
+            bottom: -20px; /* Start slightly off the screen */
+        }
 
         @keyframes floatUp {
             0% {
@@ -92,23 +91,6 @@
             }
             to {
                 transform: translateX(100vw);
-            }
-        }
-
-        /* Media Queries for Mobile */
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-            p {
-                font-size: 1rem;
-                padding-left: 10px;
-                padding-right: 10px;
-            }
-            .container {
-                margin: 20px;
-                padding: 15px;
-                max-width: 100%;
             }
         }
 
@@ -164,6 +146,14 @@
         .modal button:hover {
             transform: scale(1.1);
         }
+
+        /* Heart Count Section */
+        #heart-count {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: #FF7F7F;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -195,8 +185,8 @@
             heart.style.left = `${Math.random() * window.innerWidth}px`;
             heart.style.bottom = '0';
             heart.style.animationDuration = `${Math.random() * 3 + 2}s`;
-            heart.style.animationDelay = `${Math.random() * 3}s`; // Random delay for more variety
-            heart.style.transform = `scale(${Math.random() * 1.2 + 0.8})`; // Random scaling
+            heart.style.animationDelay = `${Math.random() * 3}s`;
+            heart.style.transform = `scale(${Math.random() * 1.2 + 0.8})`;
             document.body.appendChild(heart);
 
             setTimeout(() => {
@@ -204,9 +194,9 @@
             }, 4000);
         }
 
-        setInterval(createHeart, 300); // Increased heart frequency
+        setInterval(createHeart, 300);
 
-        // Show modal asking for permission to play music
+        // Show music modal on page load
         window.onload = () => {
             const modal = document.getElementById("musicModal");
             modal.style.display = "flex";
@@ -219,10 +209,79 @@
             document.getElementById("noBtn").onclick = () => {
                 modal.style.display = "none";
             };
+
+            // Prompt after 10 seconds
+            setTimeout(() => {
+                const promptModal = document.getElementById("promptModal");
+                promptModal.style.display = "flex";
+
+                document.getElementById("yesMessageBtn").onclick = () => {
+                    promptModal.style.display = "none";
+                    askIfSheLovesMe();
+                };
+
+                document.getElementById("veryMuchMessageBtn").onclick = () => {
+                    promptModal.style.display = "none";
+                    askIfSheLovesMe();
+                };
+            }, 10000);
         };
+
+        // Ask if she loves me
+        function askIfSheLovesMe() {
+            const loveModal = document.getElementById("loveModal");
+            loveModal.style.display = "flex";
+
+            document.getElementById("loveYesBtn").onclick = () => {
+                loveModal.style.display = "none";
+                showHeartCount(1);
+            };
+
+            document.getElementById("loveNoBtn").onclick = () => {
+                loveModal.style.display = "none";
+                askWillYouAcceptMyLove();
+            };
+        }
+
+        // Ask if she will accept love
+        function askWillYouAcceptMyLove() {
+            const acceptModal = document.getElementById("acceptModal");
+            acceptModal.style.display = "flex";
+
+            document.getElementById("acceptYesBtn").onclick = () => {
+                acceptModal.style.display = "none";
+                showHeartCount(2);
+            };
+
+            document.getElementById("acceptNoBtn").onclick = () => {
+                acceptModal.style.display = "none";
+                promptFinalRequest();
+            };
+        }
+
+        // Final request for love
+        function promptFinalRequest() {
+            const finalRequestModal = document.getElementById("finalRequestModal");
+            finalRequestModal.style.display = "flex";
+
+            document.getElementById("finalYesBtn").onclick = () => {
+                finalRequestModal.style.display = "none";
+                showHeartCount(3);
+            };
+
+            document.getElementById("finalNoBtn").onclick = () => {
+                finalRequestModal.style.display = "none";
+            };
+        }
+
+        // Show heart count
+        function showHeartCount(count) {
+            const heartCountDiv = document.getElementById("heart-count");
+            heartCountDiv.innerHTML = `❤️ Heart Count: ${count}`;
+        }
     </script>
 
-    <!-- Modal asking for permission -->
+    <!-- Modal for Music -->
     <div class="modal" id="musicModal">
         <div class="modal-content">
             <h2>Dear Lovable Girl,</h2>
@@ -232,10 +291,46 @@
         </div>
     </div>
 
-    <!-- Audio for Background Music -->
-    <audio id="backgroundMusic" loop>
-        <source src="/123.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
+    <!-- Modal for message feedback -->
+    <div class="modal" id="promptModal">
+        <div class="modal-content">
+            <h2>Do you like this message?</h2>
+            <button id="yesMessageBtn">Yes</button>
+            <button id="veryMuchMessageBtn">Very Much</button>
+        </div>
+    </div>
+
+    <!-- Modal for love question -->
+    <div class="modal" id="loveModal">
+        <div class="modal-content">
+            <h2>Do you love me?</h2>
+            <button id="loveYesBtn">Yes</button>
+            <button id="loveNoBtn">No</button>
+        </div>
+    </div>
+
+    <!-- Modal for acceptance -->
+    <div class="modal" id="acceptModal">
+        <div class="modal-content">
+            <h2>Will you accept my love?</h2>
+            <button id="acceptYesBtn">Yes</button>
+            <button id="acceptNoBtn">No</button>
+        </div>
+    </div>
+
+    <!-- Modal for final request -->
+    <div class="modal" id="finalRequestModal">
+        <div class="modal-content">
+            <h2>Please, Can I be your love forever?🙂</h2>
+            <button id="finalYesBtn">Yes</button>
+            <button id="finalYesBtn">Yess</button>
+        </div>
+    </div>
+
+    <!-- Heart Count -->
+    <div id="heart-count">❤️ Heart Count: 0</div>
+
+    <!-- Background Music -->
+    <audio id="backgroundMusic" src="/123.mp3" loop></audio>
 </body>
 </html>
