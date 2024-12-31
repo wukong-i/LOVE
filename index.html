@@ -51,15 +51,16 @@
             font-family: 'Raleway', sans-serif;
         }
         /* Floating Hearts Animation */
-        .floating-heart {
-            position: absolute;
-            width: 15px;
-            height: 15px;
-            background-color: pink;
-            clip-path: polygon(50% 0%, 100% 35%, 85% 100%, 50% 75%, 15% 100%, 0% 35%);
-            animation: floatUp 4s ease-in-out infinite;
-            opacity: 0.8;
-        }
+      .floating-heart {
+    position: fixed;
+    width: 15px;
+    height: 15px;
+    background-color: pink;
+    clip-path: polygon(50% 0%, 100% 35%, 85% 100%, 50% 75%, 15% 100%, 0% 35%);
+    animation: floatUp 4s ease-in-out infinite;
+    bottom: -20px; /* Start slightly off the screen */
+}
+
         @keyframes floatUp {
             0% {
                 transform: translateY(0) scale(1);
